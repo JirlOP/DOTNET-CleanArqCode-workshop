@@ -1,0 +1,60 @@
+﻿﻿﻿@using BlazorStrap
+@using BlazorStrap.V5
+
+<link href="css/styles.css" rel="stylesheet" />
+
+<div class="Nav_menu">
+    <div class="top">
+        <div class="logo">
+            <span>Menú Principal</span>
+        </div>
+    </div>
+    <ul>
+        <li>
+            <NavLink href="/">
+                <i class='bx bx-home'></i>
+                <BlazorStrap.V5.BSButton>
+                    <a href="/">Inicio</a>
+                </BlazorStrap.V5.BSButton>
+            </NavLink>
+        </li>
+        <li>
+            <BlazorStrap.V5.BSButton>
+                <a href="ListCarreras">Lista carreras</a>
+            </BlazorStrap.V5.BSButton>
+        </li>
+        <li>
+            <BlazorStrap.V5.BSButton>
+                <a href="CreateCarrera">Crear carrera</a>
+            </BlazorStrap.V5.BSButton>
+        </li>
+        <li>
+            <BlazorStrap.V5.BSButton>
+                <a href="ListContenidos">Lista contenidos</a>
+            </BlazorStrap.V5.BSButton>
+        </li>
+        <li>
+            <BlazorStrap.V5.BSButton>
+                <a href="CreateContenidos">Crear contenido</a>
+            </BlazorStrap.V5.BSButton>
+        </li>
+    </ul>
+</div>
+
+@code {
+
+    private bool _isActive;
+
+    private void ToggleSidebar()
+    {
+        if (_isActive)
+        {
+            _isActive = false;
+        }
+        else
+        {
+            _isActive = true;
+        }
+
+    }
+}

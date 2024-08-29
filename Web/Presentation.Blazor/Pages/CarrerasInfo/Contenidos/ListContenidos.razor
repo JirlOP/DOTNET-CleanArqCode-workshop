@@ -1,0 +1,41 @@
+﻿@page "/ListContenidos"
+@inject HttpClient Http
+@using BlazorStrap
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Json
+@using System.Web
+@using UCR.ECCI.IS.EvaluacionTecnica.Application.Services;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.Entities;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.ValueObjects;
+@using MudBlazor
+@inject IContenidoService contenidoService
+
+<PageTitle>Lista de Contenidos</PageTitle>
+
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
+<Loading IsLoading="@(_contenidos == null)">
+    @* Declaring the table of carreras and their properties *@
+    <MudTable Items="@_contenidos" Dense="@dense" Hover="@hover" Bordered="@bordered"
+              Striped="@striped" RowsPerPage="7"
+              Style="top:20rem;">
+        @* The title bar of the table *@
+        <ToolBarContent>
+            <MudText Typo="Typo.h4">Lista de contenidos</MudText>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Acronimo</MudTh>
+            <MudTh>Nombre</MudTh>
+            <MudTh>Creditos</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Acronimo">@context.Acronimo.Value</MudTd>
+            <MudTd DataLabel="Nombre">@context.Nombre.Value</MudTd>
+            <MudTd DataLabel="Creditos">@context.Creditos.Value</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HideRowsPerPage />
+        </PagerContent>
+    </MudTable>
+</Loading>

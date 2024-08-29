@@ -1,0 +1,58 @@
+﻿@page "/CreateCarrera"
+@using BlazorStrap
+@using BlazorStrap.V5
+@using System.ComponentModel.DataAnnotations
+@using UCR.ECCI.IS.EvaluacionTecnica.Application.Services;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.Entities;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.ValueObjects;
+@using UCR.ECCI.IS.EvaluacionTecnica.Presentation.Blazor.Components.CarrerasInfo.Carreras;
+@inject NavigationManager navigationManager
+@inject ICarreraService carrerraService
+@inject HttpClient Http
+
+<link href="css/CreateCarrera.css" rel="stylesheet" />
+<div class="spacing">
+    <h1 class="Title">Crear Carrera</h1>
+</div>
+<BSForm Model="carreraInfo" IsRow="true" Gutters="Gutters.Medium" OnSubmit="OnSubmit" OnReset="OnReset">
+
+    <DataAnnotationsValidator />
+    <div class="page-positioning">
+        <div class="spacing">
+            <BSLabel>Código de la carrera</BSLabel>
+            <BSInput InputType="BlazorStrap.InputType.Text" @bind-Value="carreraInfo.Codigo" />
+            <BSFeedback For="@(() => carreraInfo.Codigo)" ValidMessage="Código válido" />
+        </div>
+        <div class="spacing">
+            <BSLabel>Nombre de la carrera</BSLabel>
+            <BSInput InputType="BlazorStrap.InputType.Text" @bind-Value="carreraInfo.Nombre" />
+        </div>
+        <div class="spacing">
+            <BSLabel>Nombre de la escuela</BSLabel>
+            <BSInput InputType="BlazorStrap.InputType.Text" @bind-Value="carreraInfo.Escuela" />
+        </div>
+        <div class="button-container">
+            <BSButton  Color="BSColor.Primary" IsSubmit="true">Crear Carrera</BSButton>
+        </div>
+    </div>
+
+    <BSModal IsStaticBackdrop="true" IsCentered="true" DataId="modal2" @ref="modal">
+        <Header>
+            <div style="color: @colorStatus "><b>@modalTitle</b></div>
+        </Header>
+        <Content>
+            @((MarkupString)modalContent)
+            <BSValidationSummary />
+        </Content>
+        <Footer Context="modal">
+            @if (success)
+            {
+                <BSButton Color="BSColor.Primary" IsReset="true" @onclick="NavigateToCreateCarrera">@messageButton1</BSButton>
+                <BSButton Color="BSColor.Primary" @onclick="NavigateToListCarreras">@messageButton2</BSButton>
+            } else
+            {
+                <BSButton Color="BSColor.Primary" @onclick="modal.HideAsync">@messageButton1</BSButton>
+            }
+        </Footer>
+    </BSModal>
+</BSForm>

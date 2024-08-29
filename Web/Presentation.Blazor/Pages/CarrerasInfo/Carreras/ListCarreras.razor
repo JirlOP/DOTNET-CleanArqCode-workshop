@@ -1,0 +1,72 @@
+﻿@page "/ListCarreras"
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Json
+@using UCR.ECCI.IS.EvaluacionTecnica.Application.Services;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.Entities;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.ValueObjects;
+@using MudBlazor
+@inject NavigationManager navigationManager
+@inject ICarreraService carrerraService
+
+<PageTitle>Lista de Carreras</PageTitle>
+
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+<link href="css/CreateCarrera.css" rel="stylesheet" />
+
+<Loading IsLoading="@(IsLoadingContents || _carreras == null)">
+    @* Declaring the table of carreras and their properties *@
+    <MudTable Items="@_carreras" Dense="@dense" Hover="@hover" Bordered="@bordered"
+              Striped="@striped" RowsPerPage="10" 
+              Filter="new Func<Carrera,bool>(SearchCall)" Style="top:20rem;">
+        @* The title bar of the table *@
+        <ToolBarContent>
+            <MudText Typo="Typo.h4">Lista de carreras</MudText>
+            <MudSpacer/>
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Immediate="true" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Codigo</MudTh>
+            <MudTh>Nombre</MudTh>
+            <MudTh>Escuela</MudTh>
+            <MudTh>STEAM</MudTh>
+            <MudTh>Presupuesto Becas</MudTh>
+            <MudTh style="text-align: center;">Ver Detalles</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Codigo">@context.Codigo.Value</MudTd>
+            <MudTd DataLabel="Nombre">@context.Nombre.Value</MudTd>
+            <MudTd DataLabel="Escuela">@context.Escuela.Value</MudTd>
+            <MudTd DataLabel="STEAM">@context.IsSteam</MudTd>
+            <MudTd DataLabel="Presupuesto Becas">@context.PresupuestoBecas.Value</MudTd>
+            <MudTd style="text-align: center;" DataLabel="Contenidos">
+                <MudIconButton Icon="@Icons.Material.Filled.Notes" Style="@($"color:{Colors.Grey.Darken2};")" @onclick="@(e => ListContenidos(context) )"></MudIconButton>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HideRowsPerPage />
+        </PagerContent>
+    </MudTable>
+    <div class="spacing"/>
+    <MudButton Variant="Variant.Filled" Color="Color.Info" @onclick="UpdateBudgetsAsync">Actualizar presupuestos</MudButton>
+</Loading>
+
+@code {
+    private void ListContenidos(Carrera carrera)
+    {
+        navigationManager.NavigateTo($"/ListContenidosCarrera"
+            + "?Codigo=" + carrera.Codigo.Value
+            + "&Nombre=" + carrera.Nombre.Value
+            + "&Escuela=" + carrera.Escuela.Value
+            + "&IsSteam=" + carrera.IsSteam.ToString()
+            + "&PresupuestoBecas=" + carrera.PresupuestoBecas.Value
+        );
+    }
+
+    private void CreateContenido(Carrera carrera)
+    {
+        navigationManager.NavigateTo($"/CreateContenidos?Codigo=" + carrera.Codigo.Value);
+    }
+}

@@ -1,0 +1,35 @@
+﻿﻿body {
+    background-color: #ffffff;
+}
+
+.Title {
+    color: #0C344E;
+    font-size: 3rem;
+    position: absolute;
+    left: 3rem;
+}
+
+.page-positioning {
+    display: block;
+    position: relative;
+    top: 5rem;
+    left: 3rem;
+    width: 20rem;
+}
+
+.spacing {
+    margin-bottom: 1rem;
+}
+
+
+.submit-button {
+    order: 1;
+}
+
+.cancel-button {
+    order: 2;
+}
+
+.slider-container {
+    height: 90px;
+}

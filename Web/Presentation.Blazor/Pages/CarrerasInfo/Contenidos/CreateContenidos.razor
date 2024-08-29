@@ -1,0 +1,61 @@
+﻿@page "/CreateContenidos"
+@using BlazorStrap
+@using BlazorStrap.V5
+@using System.ComponentModel.DataAnnotations
+@using System.Web
+@using UCR.ECCI.IS.EvaluacionTecnica.Application.Services;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.Entities;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.ValueObjects;
+@inject NavigationManager navigationManager
+@inject IContenidoService contenidoService
+@inject HttpClient Http
+
+<link href="css/CreateCarrera.css" rel="stylesheet" />
+<div class="spacing">
+    <h1 class="Title">Crear Contenido</h1>
+</div>
+<BSForm Model="contenidoInfo" IsRow="true" Gutters="Gutters.Medium" OnSubmit="OnSubmit" OnReset="OnReset">
+
+    <DataAnnotationsValidator />
+    <div class="page-positioning">
+        <div class="spacing">
+            <BSLabel>Acrónimo del contenido</BSLabel>
+            <BSInput InputType="BlazorStrap.InputType.Text" @bind-Value="contenidoInfo.acronimo" />
+            <BSFeedback For="@(() => contenidoInfo.acronimo)" ValidMessage="Acrónimo válido" />
+        </div>
+        <div class="spacing">
+            <BSLabel>Nombre del contenido</BSLabel>
+            <BSInput InputType="BlazorStrap.InputType.Text" @bind-Value="contenidoInfo.nombre" />
+            <BSFeedback For="@(() => contenidoInfo.nombre)" ValidMessage="Nombre válido" />
+        </div>
+        <div class="spacing">
+            <BSLabel>Creditos del contenido</BSLabel>
+            <BSInput InputType="BlazorStrap.InputType.Text" @bind-Value="contenidoInfo.creditos" />
+            <BSFeedback For="@(() => contenidoInfo.creditos)" ValidMessage="Creditos válidos" />
+        </div>
+        <div class="button-container">
+            <BSButton MarginBottom="BlazorStrap.Margins.Small" Color="BSColor.Primary" IsSubmit="true">Crear contenido</BSButton>
+        </div>
+    </div>
+
+
+    <BSModal IsStaticBackdrop="true" IsCentered="true" DataId="modal2" @ref="modal">
+        <Header>
+            <div style="color: @colorStatus "><b>@modalTitle</b></div>
+        </Header>
+        <Content>
+            @((MarkupString)modalContent)
+            <BSValidationSummary />
+        </Content>
+        <Footer Context="modal">
+            @if (success)
+            {
+                <BSButton Color="BSColor.Primary" IsReset="true" @onclick="NavigateToCreateContenido">@messageButton1</BSButton>
+            } else
+            {
+                <BSButton Color="BSColor.Primary" @onclick="NavigateToCreateContenido">@messageButton1</BSButton>
+            }
+        </Footer>
+    </BSModal>
+</BSForm>
+

@@ -1,0 +1,83 @@
+﻿@page "/ListContenidosCarrera"
+@inject HttpClient Http
+@using BlazorStrap
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Json
+@using System.Web
+@using BlazorStrap.V5
+@using UCR.ECCI.IS.EvaluacionTecnica.Application.Services;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.Entities;
+@using UCR.ECCI.IS.EvaluacionTecnica.Domain.ValueObjects;
+@using MudBlazor
+@inject NavigationManager NavigationManager
+@inject IContenidoService contenidoService
+@inject ICarreraService carreraService
+
+<PageTitle>Lista de Contenidos de la Carrera</PageTitle>
+
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
+<Loading IsLoading="@(_contenidosCarrera == null)">
+    <MudPaper Style="padding: 1rem;">
+        <MudText Typo="Typo.h4">@nombreCarreraString</MudText>
+        <MudText Typo="Typo.body1">Código: @codigoCarreraString </MudText>
+        <MudText Typo="Typo.body1">Escuela: @escuelaCarreraString </MudText>
+        <MudText Typo="Typo.body1">STEAM: @isSteamString </MudText>
+        <MudText Typo="Typo.body1">Presupuesto Becas: @(presupuestoCarreraString)$ </MudText>
+    </MudPaper>
+    @* Declaring the table of carreras and their properties *@
+    <MudTable Items="@_contenidosCarrera" Dense="@dense" Hover="@hover" Bordered="@bordered"
+              Striped="@striped" RowsPerPage="7"
+              Style="top:20rem;">
+        @* The title bar of the table *@
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Lista de contenidos</MudText>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Acronimo</MudTh>
+            <MudTh>Nombre</MudTh>
+            <MudTh>Creditos</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Acronimo">@context.Acronimo.Value</MudTd>
+            <MudTd DataLabel="Nombre">@context.Nombre.Value</MudTd>
+            <MudTd DataLabel="Creditos">@context.Creditos.Value</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HideRowsPerPage />
+        </PagerContent>
+    </MudTable>
+    <MudButton Style="top:2rem; color: #fff; background-color: #0d6efd; border-color: #0d6efd; text-transform: capitalize;"
+               @onclick="AddAcronimoContenidos">
+        Añadir Contenido
+    </MudButton>
+    <MudButton Style="top:2rem; color: #fff; background-color: slategray; border-color: #0d6efd; text-transform: capitalize;" 
+        @onclick="@(e => NavigateToListCarreras() )">
+        Volver
+    </MudButton>
+</Loading>
+
+<BSModal IsStaticBackdrop="true" IsCentered="true" DataId="model9" @ref="modal">
+    <BSForm Model="model">
+        <BSModalHeader>
+            <MudText Typo="Typo.h5">Agregar Contenido</MudText>
+        </BSModalHeader>
+        <BSModalContent>
+            <MudItem xs="1" md="1">
+                <MudRadioGroup @bind-Value="@acronimoContenidoAñadido">
+                    @foreach (var item in _acronimoContenidosAdicionales!)
+                    {
+                        <MudRadio Color="Color.Primary" Value="@item">
+                            <p style="width:400%">@item.ToString()</p>
+                        </MudRadio>
+                    }
+                </MudRadioGroup>
+            </MudItem>
+        </BSModalContent>
+        <BSModalFooter Context="modal">
+            <BSButton Color="BSColor.Primary" @onclick="AddContenidoToCarrera">Añadir contenido</BSButton>
+            <BSButton Color="BSColor.Secondary" @onclick="modal.HideAsync">Cancelar</BSButton>
+        </BSModalFooter>
+    </BSForm>
+</BSModal>

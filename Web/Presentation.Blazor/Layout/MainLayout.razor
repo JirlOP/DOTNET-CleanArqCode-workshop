@@ -1,0 +1,68 @@
+﻿﻿﻿@using BlazorStrap
+@using BlazorStrap.V5
+@using MudBlazor
+@inherits LayoutComponentBase
+
+
+<div class="page">
+    <div class="cintillo_ucr">
+        <img src="assets/firma-tipografica-una-linea-blanco.png" alt="Firma tipografica UCR" class="firma_ucr">
+        <BSButtonGroup DropdownPlacement="BlazorStrap.Placement.BottomEnd" class="dropdown-user">
+            <BSDropdown Offset ="50,64">
+                <Content>
+                    <BSDropdownItem>Action</BSDropdownItem>
+                    <BSDropdownItem>Another action</BSDropdownItem>
+                    <BSDropdownItem>Something else here</BSDropdownItem>
+                </Content>
+            </BSDropdown>
+        </BSButtonGroup>
+    </div>
+    <NavMenu />
+    <div class="main-content">
+        @Body
+        <div class="UCR-Footer">
+            <img src="assets/firma-vertical-dos-lineas-blanco.png" alt="Firma tipografica UCR" class="logo-UCR-Footer">
+            <img src="assets/sinaes-carrera-acreditada.png" alt="Carrera acreditada SINAES" class="SINAES-Footer" />
+            <div class="container-Footer-Entities">
+                <h1 class="Footer-Title"> Entidades </h1>
+                <li>
+                    <a href="https://www.ucr.ac.cr/noticias/"> Noticias </a>
+                </li>
+                <li>
+                    <a href="https://www.ucr.ac.cr/actividades/semana/"> Agenda </a>
+                </li>
+                <li>
+                    <a href="https://www.ucr.ac.cr/multimedios/"> Multimedios </a>
+                </li>
+                <li>
+                    <a href="https://www.ucr.ac.cr/multimedios/documentos/"> Documentos </a>
+                </li>
+            </div>
+            <div class="container-Footer-Services"> 
+                <h1 class="Footer-Title"> Contacto </h1>
+                <li>
+                    <a href="https://soporteci.ucr.ac.cr/"> Página de soporte </a>
+                </li>
+                <li>
+                    <a href="https://www.ucr.ac.cr/directorio/"> Directorio completo de contactos UCR </a>
+                </li>
+                <li>
+                    <a href="https://buzon.ucr.ac.cr/"> Buzón interactivo de consultas </a>
+                </li>
+                <li>
+                    <a href="https://www.ucr.ac.cr/contacto.html"> Contacto sitio we www.ucr.ac.cr </a>
+                </li>
+                <li>
+                    <a href="http://aka.ms/devtoolsforteaching"> Descarga de software</a>
+                </li>
+            </div>
+            <div class="contact-info-bar">
+                <h1>© 2024 Universidad de Costa Rica - Tel. 2511-4000. Aviso Legal.</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
